@@ -47,7 +47,7 @@ export class TodoRenderer {
       const listItem = this.createElement('div', this.container, {
         className: 'list-item'
       });
-      listItem.dataset.id = new Date().getTime();
+      listItem.dataset.id = todo.id;
       const listFirstChild = this.createElement('div', listItem);
       const mainLine = this.createElement('div', listFirstChild, {
         className: 'todo-main-line'

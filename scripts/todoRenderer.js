@@ -89,6 +89,7 @@ export class TodoRenderer {
         className: 'todo-date'
       });
 
+      const star = this.renderStarRating(buttonLayout, todo.priority);
       const editButton = this.createElement('button', buttonLayout, {
         textContent: todo.editable ? 'Save' : 'Edit',
         className: 'edit-button'

@@ -246,12 +246,12 @@ input[type="text"] {
   display: flex;
   justify-content: flex-start;
   gap: 10px;
+  height: fit-content;
 }
 
 .stars {
   display: flex;
   gap: 4px;
-  font-size: 24px;
   user-select: none;
 }
 
@@ -259,6 +259,7 @@ input[type="text"] {
   color: #ccc;
   cursor: pointer;
   transition: color 0.2s;
+  font-size: 1.5rem;
 }
 
 .stars .star {

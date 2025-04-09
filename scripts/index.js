@@ -18,6 +18,7 @@ class TodoApp {
       this.container
     );
 
+    this.binder.bindFilterEvents();
     this.renderTodos();
   }
 
@@ -25,8 +26,29 @@ class TodoApp {
     return this.service.getTodos();
   }
 
+  get filterTodos() {
+    const { filter, sort } = this.binder;
+    let todos = this.todos;
+    const filterBoolean = filter === "complete" ? true : false;
+
+    if (filter !== "all") {
+      todos = todos.filter((todo) => todo.isComplete === filterBoolean);
+    }
+
+    if (sort === "latest") {
+      todos = todos.sort((a, b) => b.saveAt - a.saveAt);
+    } else if (sort === "oldest") {
+      todos = todos.sort((a, b) => a.saveAt - b.saveAt);
+    } else {
+      todos = todos.sort((a, b) => a.priority - b.priority);
+    }
+    console.log(filter, sort, todos);
+
+    return todos;
+  }
+
   renderTodos() {
-    this.renderer.renderTodos(this.todos);
+    this.renderer.renderTodos(this.filterTodos);
     this.binder.bindTodoEvents();
   }
 

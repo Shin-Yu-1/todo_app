@@ -3,6 +3,59 @@ export class EventBinder {
     this.service = service;
     this.onUpdateUI = renderTodos;
     this.container = container;
+
+    this.filter = "all";
+    this.sort = "latest";
+  }
+
+  bindFilterEvents() {
+    const selectBoxes = document.querySelectorAll(".custom-select");
+
+    selectBoxes.forEach((filterSelector, idx) => {
+      const selected = filterSelector.querySelector(".selected");
+      const options = filterSelector.querySelector(".options");
+
+      filterSelector.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = options.style.display === "block";
+
+        document.querySelectorAll(".options").forEach((o) => {
+          o.style.display = "none";
+        });
+
+        options.style.display = isOpen ? "none" : "block";
+      });
+
+      options.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const option = e.target.closest(".option");
+        if (!option) return;
+
+        const value = option.dataset.value;
+        const label = option.textContent;
+
+        filterSelector.dataset.value = value;
+        selected.textContent = label;
+
+        options
+          .querySelectorAll(".option")
+          .forEach((o) => o.classList.remove("selected"));
+        option.classList.add("selected");
+
+        options.style.display = "none";
+
+        if (idx === 0) this.filter = value;
+        if (idx === 1) this.sort = value;
+
+        this.onUpdateUI();
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!filterSelector.contains(e.target)) {
+          options.style.display = "none";
+        }
+      });
+    });
   }
 
   bindTodoEvents() {
@@ -10,6 +63,7 @@ export class EventBinder {
       const { target } = e;
       const listItem = target.closest(".list-item");
       const index = Array.from(this.container.children).indexOf(listItem);
+      const id = listItem?.dataset.id;
 
       if (index < 0) return;
 
@@ -28,8 +82,12 @@ export class EventBinder {
       }
 
       if (target.closest(".delete-button")) {
-        this.service.deleteTodo(index);
-        this.onUpdateUI();
+        const index = this.todos.findIndex((todo) => todo.id === id);
+
+        if (index > -1) {
+          this.todos.splice(index, 1);
+          this.saveTodos();
+        }
       }
 
       if (target.closest(".todo-checkbox")) {

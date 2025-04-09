@@ -1,4 +1,3 @@
-// index.js
 import { TodoService } from "./todoService.js";
 import { TodoRenderer } from "./todoRenderer.js";
 import { EventBinder } from "./eventBinder.js";
@@ -11,7 +10,7 @@ class TodoApp {
     this.renderer = new TodoRenderer(this.container);
 
     this.addButton = document.querySelector('[class="add-button"]');
-    this.addButton.addEventListener("click", this.showModal);
+    this.addButton.addEventListener("click", this.showModal.bind(this));
 
     this.binder = new EventBinder(
       this.service,
@@ -26,12 +25,12 @@ class TodoApp {
     return this.service.getTodos();
   }
 
-  renderTodos = () => {
+  renderTodos() {
     this.renderer.renderTodos(this.todos);
     this.binder.bindTodoEvents();
-  };
+  }
 
-  showModal = () => {
+  showModal() {
     const modal = document.createElement("div");
     modal.className = "modal";
 
@@ -73,7 +72,7 @@ class TodoApp {
         removeModal();
       }
     });
-  };
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => new TodoApp());

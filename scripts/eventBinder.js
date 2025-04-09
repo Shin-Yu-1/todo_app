@@ -88,7 +88,7 @@ export class EventBinder {
         if (target.closest('.edit-button')) {
           const todos = this.service.getTodos();
           this.service.toggleEdit(id);
-          const editable = todos.find((todo) => todo.id === id).editable;
+          const { editable } = todos.find((todo) => todo.id === id);
 
           if (!editable) {
             const textItem = listItem.querySelector('.todo-edit-input');

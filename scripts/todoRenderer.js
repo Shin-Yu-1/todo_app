@@ -33,10 +33,14 @@ export class TodoRenderer {
       });
       listItem.dataset.id = new Date().getTime();
       const listFirstChild = this.createElement("div", listItem);
+      const mainLine = this.createElement("div", listFirstChild, {
+        className: "todo-main-line",
+      });
       const buttonLayout = this.createElement("div", listItem, {
         className: "button-layout",
       });
-      const checkbox = this.createElement("input", listFirstChild, {
+
+      const checkbox = this.createElement("input", mainLine, {
         type: "checkbox",
         checked: todo.isComplete,
         className: "todo-checkbox",
@@ -44,13 +48,13 @@ export class TodoRenderer {
       let textItem = null;
 
       if (todo.editable) {
-        textItem = this.createElement("input", listFirstChild, {
+        textItem = this.createElement("input", mainLine, {
           type: "text",
           value: todo.text,
           className: "todo-edit-input",
         });
       } else {
-        textItem = this.createElement("span", listFirstChild, {
+        textItem = this.createElement("span", mainLine, {
           textContent: todo.text,
           classList: {
             method: todo.isComplete ? "add" : "remove",
@@ -58,6 +62,16 @@ export class TodoRenderer {
           },
         });
       }
+
+      const dateText = new Date(todo.saveAt).toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+      this.createElement("span", listFirstChild, {
+        textContent: dateText,
+        className: "todo-date",
+      });
 
       const editButton = this.createElement("button", buttonLayout, {
         textContent: todo.editable ? "Save" : "Edit",

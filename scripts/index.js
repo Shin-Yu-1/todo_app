@@ -38,6 +38,7 @@ class TodoApp {
       <div class="modal-content">
         <h2>할 일 추가</h2>
         <input type="text" placeholder="할 일 입력" class="todo-modal-input" />
+        <input type="date" class="todo-date-input" />
         <div class="modal-actions">
           <button class="save-button">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -63,12 +64,18 @@ class TodoApp {
     const input = modal.querySelector(".todo-modal-input");
     input.focus();
 
+    const dateInput = modal.querySelector(".todo-date-input");
+    dateInput.value = new Date().toISOString().split("T")[0];
+
     const removeModal = () => modal.remove();
 
     modal.querySelector(".save-button").addEventListener("click", () => {
       const text = input.value.trim();
       if (text) {
-        this.service.addTodo({ text });
+        this.service.addTodo({
+          text,
+          saveAt: new Date(dateInput.value).getTime(),
+        });
         this.renderTodos();
       }
       removeModal();

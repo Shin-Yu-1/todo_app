@@ -12,7 +12,7 @@ html, body {
   box-sizing: border-box;
 }
 
-header, #list {
+header, #list, .controls {
   width: calc(100% - 20px);
   max-width: 1025px;
   min-width: 320px;

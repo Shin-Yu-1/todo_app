@@ -1,0 +1,62 @@
+{
+  "root": true,
+  "env": {
+    "es6": true,
+    "browser": true,
+    "jest": true
+  },
+  "ignorePatterns": ["node_modules/", ".pnp.cjs", ".pnp.loader.cjs", "public/"],
+  "extends": ["eslint:recommended", "airbnb-base", "plugin:prettier/recommended"],
+  "plugins": ["simple-import-sort", "unused-imports", "prettier"],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [["@", "./src"]],
+        "extensions": [".js", ".json"]
+      }
+    }
+  },
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "simple-import-sort/exports": "error",
+    "unused-imports/no-unused-imports": "error",
+    "import/prefer-default-export": "off",
+    "simple-import-sort/imports": "error",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "always"
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          ["parent", "sibling", "index"],
+          "object",
+          "type"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "@/**",
+            "group": "internal"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
+}

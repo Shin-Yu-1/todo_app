@@ -50,6 +50,7 @@ class TodoApp {
   showModal() {
     const modal = document.createElement('div');
     modal.className = 'modal';
+    const today = new Date().toISOString().split('T')[0];
 
     modal.innerHTML = `
       <div class="modal-content">
@@ -58,7 +59,7 @@ class TodoApp {
         <div class="rating-container">
           <span>중요도</span>
         </div>
-        <input type="date" class="todo-date-input" />
+        <input type="date" class="todo-date-input" max="${today}"/>
         <div class="modal-actions">
           <button class="save-button">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none"

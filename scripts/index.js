@@ -16,6 +16,7 @@ class TodoApp {
 
     this.binder.bindFilterEvents();
     this.renderTodos();
+    this.binder.bindTodoEvents();
   }
 
   get todos() {
@@ -44,7 +45,6 @@ class TodoApp {
 
   renderTodos() {
     this.renderer.renderTodos(this.filterTodos);
-    this.binder.bindTodoEvents();
   }
 
   showModal() {

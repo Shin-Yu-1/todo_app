@@ -8,7 +8,7 @@ export class TodoRenderer {
 
     if (option) {
       for (const [key, value] of Object.entries(option)) {
-        if (key === "classList" && typeof value === "object") {
+        if (key === 'classList' && typeof value === 'object') {
           const { method, className } = value;
           element.classList[method](...className);
         } else {
@@ -25,14 +25,14 @@ export class TodoRenderer {
   }
 
   renderStarRating(starContainer, selectedPriority) {
-    const stars = this.createElement("div", starContainer, {
-      className: "stars",
+    const stars = this.createElement('div', starContainer, {
+      className: 'stars'
     });
 
     for (let i = 1; i <= 5; i++) {
-      const star = this.createElement("span", stars, {
-        className: selectedPriority >= i ? "star" : "",
-        textContent: "*",
+      const star = this.createElement('span', stars, {
+        className: selectedPriority >= i ? 'star' : '',
+        textContent: '*'
       });
       star.dataset.value = i;
     }
@@ -41,57 +41,57 @@ export class TodoRenderer {
   }
 
   renderTodos(todos) {
-    this.container.innerHTML = "";
+    this.container.innerHTML = '';
 
     return todos.map((todo, index) => {
-      const listItem = this.createElement("div", this.container, {
-        className: "list-item",
+      const listItem = this.createElement('div', this.container, {
+        className: 'list-item'
       });
       listItem.dataset.id = new Date().getTime();
-      const listFirstChild = this.createElement("div", listItem);
-      const mainLine = this.createElement("div", listFirstChild, {
-        className: "todo-main-line",
+      const listFirstChild = this.createElement('div', listItem);
+      const mainLine = this.createElement('div', listFirstChild, {
+        className: 'todo-main-line'
       });
-      const buttonLayout = this.createElement("div", listItem, {
-        className: "button-layout",
+      const buttonLayout = this.createElement('div', listItem, {
+        className: 'button-layout'
       });
 
-      const checkbox = this.createElement("input", mainLine, {
-        type: "checkbox",
+      const checkbox = this.createElement('input', mainLine, {
+        type: 'checkbox',
         checked: todo.isComplete,
-        className: "todo-checkbox",
+        className: 'todo-checkbox'
       });
       let textItem = null;
 
       if (todo.editable) {
-        textItem = this.createElement("input", mainLine, {
-          type: "text",
+        textItem = this.createElement('input', mainLine, {
+          type: 'text',
           value: todo.text,
-          className: "todo-edit-input",
+          className: 'todo-edit-input'
         });
       } else {
-        textItem = this.createElement("span", mainLine, {
+        textItem = this.createElement('span', mainLine, {
           textContent: todo.text,
           classList: {
-            method: todo.isComplete ? "add" : "remove",
-            className: ["checked"],
-          },
+            method: todo.isComplete ? 'add' : 'remove',
+            className: ['checked']
+          }
         });
       }
 
-      const dateText = new Date(todo.saveAt).toLocaleDateString("ko-KR", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
+      const dateText = new Date(todo.saveAt).toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
       });
-      this.createElement("span", listFirstChild, {
+      this.createElement('span', listFirstChild, {
         textContent: dateText,
-        className: "todo-date",
+        className: 'todo-date'
       });
 
-      const editButton = this.createElement("button", buttonLayout, {
-        textContent: todo.editable ? "Save" : "Edit",
-        className: "edit-button",
+      const editButton = this.createElement('button', buttonLayout, {
+        textContent: todo.editable ? 'Save' : 'Edit',
+        className: 'edit-button'
       });
       editButton.innerHTML = todo.editable
         ? `
@@ -108,9 +108,9 @@ export class TodoRenderer {
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       `;
-      const deleteButton = this.createElement("button", buttonLayout, {
-        textContent: "Delete",
-        className: "delete-button",
+      const deleteButton = this.createElement('button', buttonLayout, {
+        textContent: 'Delete',
+        className: 'delete-button'
       });
       deleteButton.innerHTML = `
         <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -126,7 +126,7 @@ export class TodoRenderer {
         deleteButton,
         textItem,
         listItem,
-        index,
+        index
       };
     });
   }

@@ -1,6 +1,6 @@
 export class TodoService {
   constructor() {
-    this.todos = JSON.parse(localStorage.getItem("todos")) || [];
+    this.todos = JSON.parse(localStorage.getItem('todos')) || [];
   }
 
   getTodos() {
@@ -8,7 +8,7 @@ export class TodoService {
   }
 
   saveTodos(todos) {
-    return localStorage.setItem("todos", JSON.stringify(todos || this.todos));
+    return localStorage.setItem('todos', JSON.stringify(todos || this.todos));
   }
 
   addTodo({ text, priority, saveAt }) {
@@ -18,7 +18,7 @@ export class TodoService {
       priority,
       isComplete: false,
       saveAt,
-      id: new Date().getTime(),
+      id: new Date().getTime()
     });
     this.saveTodos();
   }

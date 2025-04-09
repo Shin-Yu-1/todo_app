@@ -1,22 +1,18 @@
-import { TodoService } from "./todoService.js";
-import { TodoRenderer } from "./todoRenderer.js";
-import { EventBinder } from "./eventBinder.js";
+import { EventBinder } from './eventBinder.js';
+import { TodoRenderer } from './todoRenderer.js';
+import { TodoService } from './todoService.js';
 
 class TodoApp {
   constructor() {
-    this.container = document.getElementById("list");
+    this.container = document.getElementById('list');
 
     this.service = new TodoService();
     this.renderer = new TodoRenderer(this.container);
 
     this.addButton = document.querySelector('[class="add-button"]');
-    this.addButton.addEventListener("click", this.showModal.bind(this));
+    this.addButton.addEventListener('click', this.showModal.bind(this));
 
-    this.binder = new EventBinder(
-      this.service,
-      this.renderTodos.bind(this),
-      this.container
-    );
+    this.binder = new EventBinder(this.service, this.renderTodos.bind(this), this.container);
 
     this.binder.bindFilterEvents();
     this.renderTodos();
@@ -28,16 +24,16 @@ class TodoApp {
 
   get filterTodos() {
     const { filter, sort } = this.binder;
-    let todos = this.todos;
-    const filterBoolean = filter === "complete" ? true : false;
+    let { todos } = this;
+    const filterBoolean = filter === 'complete';
 
-    if (filter !== "all") {
+    if (filter !== 'all') {
       todos = todos.filter((todo) => todo.isComplete === filterBoolean);
     }
 
-    if (sort === "latest") {
+    if (sort === 'latest') {
       todos.sort((a, b) => b.saveAt - a.saveAt);
-    } else if (sort === "oldest") {
+    } else if (sort === 'oldest') {
       todos.sort((a, b) => a.saveAt - b.saveAt);
     } else {
       todos.sort((a, b) => b.priority - a.priority);
@@ -52,8 +48,8 @@ class TodoApp {
   }
 
   showModal() {
-    const modal = document.createElement("div");
-    modal.className = "modal";
+    const modal = document.createElement('div');
+    modal.className = 'modal';
 
     modal.innerHTML = `
       <div class="modal-content">
@@ -85,20 +81,18 @@ class TodoApp {
 
     document.body.appendChild(modal);
 
-    const input = modal.querySelector(".todo-modal-input");
+    const input = modal.querySelector('.todo-modal-input');
     input.focus();
 
-    const dateInput = modal.querySelector(".todo-date-input");
-    dateInput.value = new Date().toISOString().split("T")[0];
+    const dateInput = modal.querySelector('.todo-date-input');
+    dateInput.value = new Date().toISOString().split('T')[0];
 
     const removeModal = () => modal.remove();
 
-    const stars = this.renderer.renderStarRating(
-      modal.querySelector(".rating-container")
-    );
+    const stars = this.renderer.renderStarRating(modal.querySelector('.rating-container'));
     this.binder.bindStarRatingEvents(stars);
 
-    modal.querySelector(".save-button").addEventListener("click", () => {
+    modal.querySelector('.save-button').addEventListener('click', () => {
       const text = input.value.trim();
       const priority = stars.dataset.value;
 
@@ -106,7 +100,7 @@ class TodoApp {
         this.service.addTodo({
           text,
           priority,
-          saveAt: new Date(dateInput.value).getTime(),
+          saveAt: new Date(dateInput.value).getTime()
         });
 
         this.renderTodos();
@@ -115,18 +109,16 @@ class TodoApp {
       removeModal();
     });
 
-    modal
-      .querySelector(".cancel-button")
-      .addEventListener("click", removeModal);
+    modal.querySelector('.cancel-button').addEventListener('click', removeModal);
 
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        modal.querySelector(".save-button").click();
-      } else if (e.key === "Escape") {
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        modal.querySelector('.save-button').click();
+      } else if (e.key === 'Escape') {
         removeModal();
       }
     });
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => new TodoApp());
+document.addEventListener('DOMContentLoaded', () => new TodoApp());

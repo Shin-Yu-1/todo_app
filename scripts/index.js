@@ -36,11 +36,11 @@ class TodoApp {
     }
 
     if (sort === "latest") {
-      todos = todos.sort((a, b) => b.saveAt - a.saveAt);
+      todos.sort((a, b) => b.saveAt - a.saveAt);
     } else if (sort === "oldest") {
-      todos = todos.sort((a, b) => a.saveAt - b.saveAt);
+      todos.sort((a, b) => a.saveAt - b.saveAt);
     } else {
-      todos = todos.sort((a, b) => b.priority - a.priority);
+      todos.sort((a, b) => b.priority - a.priority);
     }
 
     return todos;

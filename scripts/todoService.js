@@ -35,7 +35,11 @@ export class TodoService {
     }
   }
 
-  updateTodo({ index, newText, priority, isComplete }) {
+  updateTodo({ id, newText, priority, isComplete }) {
+    const index = this.todos.findIndex((todo) => todo.id === id);
+
+    if (index === -1) return;
+
     if (newText) {
       this.todos[index].text = newText;
     }
@@ -51,7 +55,8 @@ export class TodoService {
     this.saveTodos();
   }
 
-  deleteTodo(index) {
+  deleteTodo(id) {
+    const index = this.todos.findIndex((todo) => todo.id === id);
     this.todos.splice(index, 1);
     this.saveTodos();
   }

@@ -40,8 +40,13 @@ class TodoApp {
         <input type="text" placeholder="할 일 입력" class="todo-modal-input" />
         <div class="modal-actions">
           <button class="save-button">
-            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-              <path d="M5 5v14h14V5H5zM9 3v4h6V3M9 13h6v6H9z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 24 24">
+              <path d="M5 13l4 4L19 7"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
             </svg>
           </button>
           <button class="cancel-button">

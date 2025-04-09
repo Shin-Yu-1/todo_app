@@ -40,9 +40,8 @@ class TodoApp {
     } else if (sort === "oldest") {
       todos = todos.sort((a, b) => a.saveAt - b.saveAt);
     } else {
-      todos = todos.sort((a, b) => a.priority - b.priority);
+      todos = todos.sort((a, b) => b.priority - a.priority);
     }
-    console.log(filter, sort, todos);
 
     return todos;
   }
@@ -60,6 +59,9 @@ class TodoApp {
       <div class="modal-content">
         <h2>할 일 추가</h2>
         <input type="text" placeholder="할 일 입력" class="todo-modal-input" />
+        <div class="rating-container">
+          <span>중요도</span>
+        </div>
         <input type="date" class="todo-date-input" />
         <div class="modal-actions">
           <button class="save-button">
@@ -91,15 +93,25 @@ class TodoApp {
 
     const removeModal = () => modal.remove();
 
+    const stars = this.renderer.renderStarRating(
+      modal.querySelector(".rating-container")
+    );
+    this.binder.bindStarRatingEvents(stars);
+
     modal.querySelector(".save-button").addEventListener("click", () => {
       const text = input.value.trim();
+      const priority = stars.dataset.value;
+
       if (text) {
         this.service.addTodo({
           text,
+          priority,
           saveAt: new Date(dateInput.value).getTime(),
         });
+
         this.renderTodos();
       }
+
       removeModal();
     });
 

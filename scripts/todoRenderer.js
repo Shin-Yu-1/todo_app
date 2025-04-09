@@ -24,6 +24,22 @@ export class TodoRenderer {
     return element;
   }
 
+  renderStarRating(starContainer, selectedPriority) {
+    const stars = this.createElement("div", starContainer, {
+      className: "stars",
+    });
+
+    for (let i = 1; i <= 5; i++) {
+      const star = this.createElement("span", stars, {
+        className: selectedPriority >= i ? "star" : "",
+        textContent: "*",
+      });
+      star.dataset.value = i;
+    }
+
+    return stars;
+  }
+
   renderTodos(todos) {
     this.container.innerHTML = "";
 

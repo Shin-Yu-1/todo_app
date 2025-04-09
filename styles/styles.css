@@ -240,6 +240,34 @@ input[type="text"] {
   width: 100%;
 }
 
+.rating-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+  font-size: 24px;
+  user-select: none;
+}
+
+.stars span {
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.stars .star {
+  color: gold;
+}
+
+.stars span:hover,
+.stars span:hover ~ span {
+  color: #ccc !important;
+}
+
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -260,7 +288,6 @@ input[type="text"] {
   vertical-align: middle;
 }
 
-/* 체크됐을 때 안에 체크 표시 */
 .todo-checkbox:checked::after {
   content: "✓";
   font-size: 14px;

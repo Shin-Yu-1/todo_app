@@ -8,6 +8,20 @@ export class EventBinder {
     this.sort = "latest";
   }
 
+  bindStarRatingEvents(starContainer) {
+    starContainer.addEventListener("click", (e) => {
+      const { target } = e;
+
+      const selectedPriority = Number(target.dataset.value);
+
+      starContainer.querySelectorAll("span").forEach((star, i) => {
+        star.classList.toggle("star", i < selectedPriority);
+      });
+
+      starContainer.dataset.value = selectedPriority;
+    });
+  }
+
   bindFilterEvents() {
     const selectBoxes = document.querySelectorAll(".custom-select");
 
@@ -82,11 +96,14 @@ export class EventBinder {
       }
 
       if (target.closest(".delete-button")) {
-        const index = this.todos.findIndex((todo) => todo.id === id);
+        // const index = this.todos.findIndex((todo) => todo.id === id);
 
         if (index > -1) {
-          this.todos.splice(index, 1);
-          this.saveTodos();
+          const todos = this.service.getTodos();
+          todos.splice(index, 1);
+          this.service.saveTodos(todos);
+
+          this.onUpdateUI();
         }
       }
 

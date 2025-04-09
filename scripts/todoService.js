@@ -7,8 +7,8 @@ export class TodoService {
     return this.todos;
   }
 
-  saveTodos() {
-    return localStorage.setItem("todos", JSON.stringify(this.todos));
+  saveTodos(todos) {
+    return localStorage.setItem("todos", JSON.stringify(todos || this.todos));
   }
 
   addTodo({ text, priority, saveAt }) {
@@ -18,7 +18,13 @@ export class TodoService {
       priority,
       isComplete: false,
       saveAt,
+      id: new Date().getTime(),
     });
+    this.saveTodos();
+  }
+
+  deleteTodo(index) {
+    this.todos.splice(index, 1);
     this.saveTodos();
   }
 

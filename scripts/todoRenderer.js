@@ -3,7 +3,7 @@ export class TodoRenderer {
     this.container = container;
   }
 
-  getElement = (type, parent = null, option = null) => {
+  createElement(type, parent, option) {
     const element = document.createElement(type);
 
     if (option) {
@@ -22,18 +22,19 @@ export class TodoRenderer {
     }
 
     return element;
-  };
+  }
 
-  renderTodos = (todos) => {
+  renderTodos(todos) {
     this.container.innerHTML = "";
 
     return todos.map((todo, index) => {
-      const listItem = this.getElement("div", this.container, {
+      const listItem = this.createElement("div", this.container, {
         className: "list-item",
       });
-      const listFirstChild = this.getElement("div", listItem);
-      const listSecondChild = this.getElement("div", listItem);
-      const checkbox = this.getElement("input", listFirstChild, {
+      listItem.dataset.id = new Date().getTime();
+      const listFirstChild = this.createElement("div", listItem);
+      const listSecondChild = this.createElement("div", listItem);
+      const checkbox = this.createElement("input", listFirstChild, {
         type: "checkbox",
         checked: todo.isComplete,
         className: "todo-checkbox",
@@ -41,13 +42,13 @@ export class TodoRenderer {
       let textItem = null;
 
       if (todo.editable) {
-        textItem = this.getElement("input", listFirstChild, {
+        textItem = this.createElement("input", listFirstChild, {
           type: "text",
           value: todo.text,
           className: "todo-edit-input",
         });
       } else {
-        textItem = this.getElement("span", listFirstChild, {
+        textItem = this.createElement("span", listFirstChild, {
           textContent: todo.text,
           classList: {
             method: todo.isComplete ? "add" : "remove",
@@ -56,11 +57,11 @@ export class TodoRenderer {
         });
       }
 
-      const editButton = this.getElement("button", listSecondChild, {
+      const editButton = this.createElement("button", listSecondChild, {
         textContent: todo.editable ? "Save" : "Edit",
         className: "edit-button",
       });
-      const deleteButton = this.getElement("button", listSecondChild, {
+      const deleteButton = this.createElement("button", listSecondChild, {
         textContent: "Delete",
         className: "delete-button",
       });
@@ -74,5 +75,5 @@ export class TodoRenderer {
         index,
       };
     });
-  };
+  }
 }

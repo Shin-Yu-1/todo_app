@@ -5,16 +5,15 @@ export class EventBinder {
     this.container = container;
   }
 
-  bindTodoEvents = () => {
+  bindTodoEvents() {
     this.container.addEventListener("click", (e) => {
-      const listItem = e.target.closest(".list-item");
+      const { target } = e;
+      const listItem = target.closest(".list-item");
       const index = Array.from(this.container.children).indexOf(listItem);
 
-      if (index < 0) {
-        return;
-      }
+      if (index < 0) return;
 
-      if (e.target.closest(".edit-button")) {
+      if (target.closest(".edit-button")) {
         const todo = this.service.getTodos();
         this.service.toggleEdit(index);
 
@@ -28,16 +27,16 @@ export class EventBinder {
         this.onUpdateUI();
       }
 
-      if (e.target.closest(".delete-button")) {
+      if (target.closest(".delete-button")) {
         this.service.deleteTodo(index);
         this.onUpdateUI();
       }
 
-      if (e.target.closest(".todo-checkbox")) {
-        this.service.updateTodo({ index, isComplete: e.target.checked });
+      if (target.closest(".todo-checkbox")) {
+        this.service.updateTodo({ index, isComplete: target.checked });
 
         this.onUpdateUI();
       }
     });
-  };
+  }
 }

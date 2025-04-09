@@ -10,11 +10,11 @@ class TodoApp {
     this.renderer = new TodoRenderer(this.container);
 
     this.addButton = document.querySelector('[name="add-button"]');
-    this.addButton.addEventListener("click", this.addInputHandler);
+    this.addButton.addEventListener("click", this.addInputHandler.bind(this));
 
     this.binder = new EventBinder(
       this.service,
-      this.renderTodos,
+      this.renderTodos.bind(this),
       this.container
     );
 
@@ -25,7 +25,7 @@ class TodoApp {
     return this.service.getTodos();
   }
 
-  addInputHandler = () => {
+  addInputHandler() {
     const todoInput = document.querySelector(".todo-input");
 
     if (todoInput) {
@@ -39,11 +39,12 @@ class TodoApp {
 
       this.renderTodos();
     } else {
+      console.log(this);
       this.showInput();
     }
-  };
+  }
 
-  showInput = () => {
+  showInput() {
     this.addButton.textContent = "SAVE";
 
     const todoInput = document.createElement("input");
@@ -65,12 +66,12 @@ class TodoApp {
     };
 
     todoInput.addEventListener("keydown", handleKeydown);
-  };
+  }
 
-  renderTodos = () => {
+  renderTodos() {
     this.renderer.renderTodos(this.todos);
     this.binder.bindTodoEvents();
-  };
+  }
 }
 
 document.addEventListener("DOMContentLoaded", new TodoApp());

@@ -3,29 +3,33 @@ export class TodoService {
     this.todos = JSON.parse(localStorage.getItem("todos")) || [];
   }
 
-  getTodos = () => this.todos;
+  getTodos() {
+    return this.todos;
+  }
 
-  saveTodos = () => localStorage.setItem("todos", JSON.stringify(this.todos));
+  saveTodos() {
+    return localStorage.setItem("todos", JSON.stringify(this.todos));
+  }
 
-  addTodo = ({ text, priority }) => {
+  addTodo({ text, priority, saveDate }) {
     this.todos.push({
       text,
       editable: false,
       priority,
       isComplete: false,
-      saveAt: new Date().getTime(),
+      saveDate,
     });
     this.saveTodos();
-  };
+  }
 
-  toggleEdit = (index) => {
+  toggleEdit(index) {
     if (this.todos[index]) {
       this.todos[index].editable = !this.todos[index].editable;
       this.saveTodos();
     }
-  };
+  }
 
-  updateTodo = ({ index, newText, priority, isComplete }) => {
+  updateTodo({ index, newText, priority, isComplete }) {
     if (newText) {
       this.todos[index].text = newText;
     }
@@ -39,10 +43,10 @@ export class TodoService {
     }
 
     this.saveTodos();
-  };
+  }
 
-  deleteTodo = (index) => {
+  deleteTodo(index) {
     this.todos.splice(index, 1);
     this.saveTodos();
-  };
+  }
 }

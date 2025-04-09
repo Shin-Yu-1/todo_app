@@ -28,11 +28,11 @@ export class TodoService {
     this.saveTodos();
   }
 
-  toggleEdit(index) {
-    if (this.todos[index]) {
-      this.todos[index].editable = !this.todos[index].editable;
-      this.saveTodos();
-    }
+  toggleEdit(id) {
+    const index = this.todos.findIndex((todo) => todo.id === id);
+
+    this.todos[index].editable = !this.todos[index].editable;
+    this.saveTodos();
   }
 
   updateTodo({ id, newText, priority, isComplete }) {

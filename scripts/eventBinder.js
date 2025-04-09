@@ -74,39 +74,36 @@ export class EventBinder {
     this.container.addEventListener('click', (e) => {
       const { target } = e;
       const listItem = target.closest('.list-item');
-      const index = Array.from(this.container.children).indexOf(listItem);
-      const id = listItem?.dataset.id;
 
-      if (index < 0) return;
+      if (!listItem) return;
 
-      if (target.closest('.edit-button')) {
-        const todo = this.service.getTodos();
-        this.service.toggleEdit(index);
+      const id = Number(listItem.dataset.id);
 
-        if (todo[index] && !todo[index].editable) {
-          const textItem = listItem.querySelector('.todo-edit-input');
-          const newText = textItem.value.trim();
+      if (isNaN(id)) return;
 
-          this.service.updateTodo({ index, newText });
-        }
-
+      if (target.type === 'checkbox') {
+        this.service.updateTodo({ id, isComplete: target.checked });
         this.onUpdateUI();
-      }
-
-      if (target.closest('.delete-button')) {
-        if (index > -1) {
+      } else {
+        if (target.closest('.edit-button')) {
           const todos = this.service.getTodos();
-          todos.splice(index, 1);
-          this.service.saveTodos(todos);
+          this.service.toggleEdit(id);
+          const editable = todos.find((todo) => todo.id === id).editable;
+
+          if (!editable) {
+            const textItem = listItem.querySelector('.todo-edit-input');
+            const newText = textItem.value.trim();
+
+            this.service.updateTodo({ id, newText });
+          }
 
           this.onUpdateUI();
         }
-      }
 
-      if (target.closest('.todo-checkbox')) {
-        this.service.updateTodo({ index, isComplete: target.checked });
-
-        this.onUpdateUI();
+        if (target.closest('.delete-button')) {
+          this.service.deleteTodo(id);
+          this.onUpdateUI();
+        }
       }
     });
   }

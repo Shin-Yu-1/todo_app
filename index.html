@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/reset.css">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>TODO APP</title>
+  </head>
+  <body>
+    <header>
+      <h1>TODO APP</h1>
+      <div class="new-todo">
+        <button class="add-button">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 4v16m8-8H4" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="controls">
+      <div class="custom-select">
+        <div class="selected">전체</div>
+        <ul class="options">
+          <li class="option" data-value="all">전체</li>
+          <li class="option" data-value="complete">완료</li>
+          <li class="option" data-value="incomplete">미완료</li>
+        </ul>
+      </div>
+
+      <div class="custom-select">
+        <div class="selected">최신순</div>
+        <ul class="options">
+          <li class="option" data-value="latest">최신순</li>
+          <li class="option" data-value="oldest">오래된순</li>
+          <li class="option" data-value="priority">중요도순</li>
+        </ul>
+      </div>
+    </div>
+
+    <main id="list"></main>
+
+    <script type="module" src="./scripts/index.js"></script>
+  </body>
+</html>

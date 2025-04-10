@@ -1,0 +1,316 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  /* font-size: 16px; */
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+header, #list, .controls {
+  width: calc(100% - 20px);
+  max-width: 1025px;
+  min-width: 320px;
+}
+
+header {
+  text-align: center;
+  margin: 20px 0;
+}
+
+header h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.controls {
+  display: flex;
+  width: calc(100% - 20px);
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+
+.custom-select {
+  width: 100px;
+  min-width: 86px;
+  position: relative;
+}
+
+.custom-select,
+.custom-select * {
+  user-select: none;
+}
+
+.selected {
+  border: 1px solid #ccc;
+  line-height: 1.4rem;
+  padding: 0 10px;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.options {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  position: absolute;
+  background: white;
+  width: 100%;
+  z-index: 10;
+  display: none;
+}
+
+.option {
+  padding: 0 10px;
+  border-radius: 0px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background-color: #eee;
+}
+
+.option.selected {
+  background-color: #0d6efd; /* 또는 #28a745 */
+  color: white;
+  position: relative;
+}
+
+.option.selected::after {
+  content: "✔";
+  position: absolute;
+  right: 12px;
+  font-size: 14px;
+}
+
+.button-layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  padding: 8px 12px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  stroke: #ffffff;
+}
+
+.add-button {
+  background-color: #28a745;
+}
+
+.edit-button {
+  background-color: #007bff;
+}
+
+.delete-button {
+  background-color: #dc3545;
+}
+
+.save-button {
+  background-color: #28a745;
+}
+
+.cancel-button {
+  background-color: #6c757d;
+}
+
+header .new-todo {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 10px;
+}
+
+input[type="text"] {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+#list {
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+#list input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.todo-date {
+  font-size: 12px;
+  color: #999;
+  margin-left: 8px;
+  align-self: flex-end;
+}
+
+.list-first-child {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.todo-main-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.list-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.list-item span {
+  flex-grow: 1;
+}
+
+.list-item .checked {
+  text-decoration: line-through;
+  color: gray;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.modal-content input[type="text"] {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.rating-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  height: fit-content;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+  user-select: none;
+}
+
+.stars span {
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-size: 1.5rem;
+}
+.stars.disable-hover span {
+  pointer-events: none;
+}
+.stars.disable-hover span:hover,
+.stars.disable-hover span:hover ~ span {
+  color: inherit !important;
+}
+
+
+.stars .star {
+  color: gold;
+}
+
+.stars span:hover,
+.stars span:hover ~ span {
+  color: #ccc !important;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.todo-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #007bff;
+  border-radius: 50%; /* 원형 */
+  background-color: white;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.todo-checkbox:checked::after {
+  content: "✓";
+  font-size: 14px;
+  color: white;
+  background-color: #007bff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

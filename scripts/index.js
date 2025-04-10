@@ -1,0 +1,125 @@
+import { EventBinder } from './eventBinder.js';
+import { TodoRenderer } from './todoRenderer.js';
+import { TodoService } from './todoService.js';
+
+class TodoApp {
+  constructor() {
+    this.container = document.getElementById('list');
+
+    this.service = new TodoService();
+    this.renderer = new TodoRenderer(this.container);
+
+    this.addButton = document.querySelector('[class="add-button"]');
+    this.addButton.addEventListener('click', this.showModal.bind(this));
+
+    this.binder = new EventBinder(this.service, this.renderTodos.bind(this), this.container);
+
+    this.binder.bindFilterEvents();
+    this.renderTodos();
+    this.binder.bindTodoEvents();
+  }
+
+  get todos() {
+    return this.service.getTodos();
+  }
+
+  get filterTodos() {
+    const { filter, sort } = this.binder;
+    let { todos } = this;
+    const filterBoolean = filter === 'complete';
+
+    if (filter !== 'all') {
+      todos = todos.filter((todo) => todo.isComplete === filterBoolean);
+    }
+
+    if (sort === 'latest') {
+      todos.sort((a, b) => b.saveAt - a.saveAt);
+    } else if (sort === 'oldest') {
+      todos.sort((a, b) => a.saveAt - b.saveAt);
+    } else {
+      todos.sort((a, b) => b.priority - a.priority);
+    }
+
+    return todos;
+  }
+
+  renderTodos() {
+    this.renderer.renderTodos(this.filterTodos);
+  }
+
+  showModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    const [today] = new Date().toISOString().split('T');
+
+    modal.innerHTML = `
+      <div class="modal-content">
+        <h2>할 일 추가</h2>
+        <input type="text" placeholder="할 일 입력" class="todo-modal-input" />
+        <div class="rating-container">
+          <span>중요도</span>
+        </div>
+        <input type="date" class="todo-date-input" max="${today}"/>
+        <div class="modal-actions">
+          <button class="save-button">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 24 24">
+              <path d="M5 13l4 4L19 7"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button class="cancel-button">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const input = modal.querySelector('.todo-modal-input');
+    input.focus();
+
+    const dateInput = modal.querySelector('.todo-date-input');
+    dateInput.value = today;
+
+    const removeModal = () => modal.remove();
+
+    const stars = TodoRenderer.renderStarRating(modal.querySelector('.rating-container'));
+    EventBinder.bindStarRatingEvents(stars);
+
+    modal.querySelector('.save-button').addEventListener('click', () => {
+      const text = input.value.trim();
+      const priority = stars.dataset.value;
+
+      if (text) {
+        this.service.addTodo({
+          text,
+          priority,
+          saveAt: new Date(dateInput.value).getTime()
+        });
+
+        this.renderTodos();
+      }
+
+      removeModal();
+    });
+
+    modal.querySelector('.cancel-button').addEventListener('click', removeModal);
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        modal.querySelector('.save-button').click();
+      } else if (e.key === 'Escape') {
+        removeModal();
+      }
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => new TodoApp());

@@ -24,9 +24,13 @@ export class TodoRenderer {
     return element;
   }
 
-  static renderStarRating(starContainer, selectedPriority) {
+  static renderStarRating(starContainer, selectedPriority, disableHover) {
     const stars = TodoRenderer.createElement('div', starContainer, {
-      className: 'stars'
+      // className: 'stars'
+      classList: {
+        method: 'add',
+        className: ['stars', disableHover ? 'disable-hover' : '']
+      }
     });
 
     for (let i = 1; i <= 5; i += 1) {
@@ -89,7 +93,8 @@ export class TodoRenderer {
         className: 'todo-date'
       });
 
-      TodoRenderer.renderStarRating(buttonLayout, todo.priority);
+      const disableHover = true;
+      TodoRenderer.renderStarRating(buttonLayout, todo.priority, disableHover);
       const editButton = TodoRenderer.createElement('button', buttonLayout, {
         textContent: todo.editable ? 'Save' : 'Edit',
         className: 'edit-button'

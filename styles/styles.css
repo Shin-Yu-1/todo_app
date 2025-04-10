@@ -261,6 +261,14 @@ input[type="text"] {
   transition: color 0.2s;
   font-size: 1.5rem;
 }
+.stars.disable-hover span {
+  pointer-events: none;
+}
+.stars.disable-hover span:hover,
+.stars.disable-hover span:hover ~ span {
+  color: inherit !important;
+}
+
 
 .stars .star {
   color: gold;

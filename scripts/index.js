@@ -50,7 +50,7 @@ class TodoApp {
   showModal() {
     const modal = document.createElement('div');
     modal.className = 'modal';
-    const today = new Date().toISOString().split('T')[0];
+    const [today] = new Date().toISOString().split('T');
 
     modal.innerHTML = `
       <div class="modal-content">
@@ -86,12 +86,12 @@ class TodoApp {
     input.focus();
 
     const dateInput = modal.querySelector('.todo-date-input');
-    dateInput.value = new Date().toISOString().split('T')[0];
+    dateInput.value = today;
 
     const removeModal = () => modal.remove();
 
-    const stars = this.renderer.renderStarRating(modal.querySelector('.rating-container'));
-    this.binder.bindStarRatingEvents(stars);
+    const stars = TodoRenderer.renderStarRating(modal.querySelector('.rating-container'));
+    EventBinder.bindStarRatingEvents(stars);
 
     modal.querySelector('.save-button').addEventListener('click', () => {
       const text = input.value.trim();

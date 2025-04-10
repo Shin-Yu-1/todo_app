@@ -8,7 +8,7 @@ export class EventBinder {
     this.sort = 'latest';
   }
 
-  bindStarRatingEvents(starContainer) {
+  static bindStarRatingEvents(starContainer) {
     starContainer.addEventListener('click', (e) => {
       const { target } = e;
 
@@ -34,6 +34,7 @@ export class EventBinder {
         const isOpen = options.style.display === 'block';
 
         document.querySelectorAll('.options').forEach((o) => {
+          // eslint-disable-next-line no-param-reassign
           o.style.display = 'none';
         });
 
@@ -79,7 +80,7 @@ export class EventBinder {
 
       const id = Number(listItem.dataset.id);
 
-      if (isNaN(id)) return;
+      if (Number.isNaN(id)) return;
 
       if (target.type === 'checkbox') {
         this.service.updateTodo({ id, isComplete: target.checked });

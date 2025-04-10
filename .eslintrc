@@ -26,6 +26,7 @@
     "unused-imports/no-unused-imports": "error",
     "import/prefer-default-export": "off",
     "simple-import-sort/imports": "error",
+    "no-param-reassign": ["error", { "props": false }],
     "import/extensions": [
       "error",
       "ignorePackages",

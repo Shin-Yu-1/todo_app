@@ -3,18 +3,18 @@ export class TodoRenderer {
     this.container = container;
   }
 
-  createElement(type, parent, option) {
+  static createElement(type, parent, option) {
     const element = document.createElement(type);
 
     if (option) {
-      for (const [key, value] of Object.entries(option)) {
+      Object.entries(option).forEach(([key, value]) => {
         if (key === 'classList' && typeof value === 'object') {
           const { method, className } = value;
           element.classList[method](...className);
         } else {
           element[key] = value;
         }
-      }
+      });
     }
 
     if (parent) {
@@ -24,13 +24,13 @@ export class TodoRenderer {
     return element;
   }
 
-  renderStarRating(starContainer, selectedPriority) {
-    const stars = this.createElement('div', starContainer, {
+  static renderStarRating(starContainer, selectedPriority) {
+    const stars = TodoRenderer.createElement('div', starContainer, {
       className: 'stars'
     });
 
-    for (let i = 1; i <= 5; i++) {
-      const star = this.createElement('span', stars, {
+    for (let i = 1; i <= 5; i += 1) {
+      const star = TodoRenderer.createElement('span', stars, {
         className: selectedPriority >= i ? 'star' : '',
         textContent: '*'
       });
@@ -44,19 +44,19 @@ export class TodoRenderer {
     this.container.innerHTML = '';
 
     return todos.map((todo, index) => {
-      const listItem = this.createElement('div', this.container, {
+      const listItem = TodoRenderer.createElement('div', this.container, {
         className: 'list-item'
       });
       listItem.dataset.id = todo.id;
-      const listFirstChild = this.createElement('div', listItem);
-      const mainLine = this.createElement('div', listFirstChild, {
+      const listFirstChild = TodoRenderer.createElement('div', listItem);
+      const mainLine = TodoRenderer.createElement('div', listFirstChild, {
         className: 'todo-main-line'
       });
-      const buttonLayout = this.createElement('div', listItem, {
+      const buttonLayout = TodoRenderer.createElement('div', listItem, {
         className: 'button-layout'
       });
 
-      const checkbox = this.createElement('input', mainLine, {
+      const checkbox = TodoRenderer.createElement('input', mainLine, {
         type: 'checkbox',
         checked: todo.isComplete,
         className: 'todo-checkbox'
@@ -64,13 +64,13 @@ export class TodoRenderer {
       let textItem = null;
 
       if (todo.editable) {
-        textItem = this.createElement('input', mainLine, {
+        textItem = TodoRenderer.createElement('input', mainLine, {
           type: 'text',
           value: todo.text,
           className: 'todo-edit-input'
         });
       } else {
-        textItem = this.createElement('span', mainLine, {
+        textItem = TodoRenderer.createElement('span', mainLine, {
           textContent: todo.text,
           classList: {
             method: todo.isComplete ? 'add' : 'remove',
@@ -84,13 +84,13 @@ export class TodoRenderer {
         month: '2-digit',
         day: '2-digit'
       });
-      this.createElement('span', listFirstChild, {
+      TodoRenderer.createElement('span', listFirstChild, {
         textContent: dateText,
         className: 'todo-date'
       });
 
-      const star = this.renderStarRating(buttonLayout, todo.priority);
-      const editButton = this.createElement('button', buttonLayout, {
+      TodoRenderer.renderStarRating(buttonLayout, todo.priority);
+      const editButton = TodoRenderer.createElement('button', buttonLayout, {
         textContent: todo.editable ? 'Save' : 'Edit',
         className: 'edit-button'
       });
@@ -109,7 +109,7 @@ export class TodoRenderer {
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       `;
-      const deleteButton = this.createElement('button', buttonLayout, {
+      const deleteButton = TodoRenderer.createElement('button', buttonLayout, {
         textContent: 'Delete',
         className: 'delete-button'
       });
